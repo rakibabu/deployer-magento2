@@ -10,7 +10,7 @@
 
 namespace Deployer;
 
-require_once '../vendor/deployer/deployer/recipe/common.php';
+require_once __DIR__.'/../../deployer/deployer/recipe/common.php';
 
 # ----- Deployment properties ---
 set('forwardAgent', true);
