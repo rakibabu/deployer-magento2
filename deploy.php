@@ -110,6 +110,7 @@ task('deploy', [
     'deploy:vendors',
     'deploy:clear_paths',
     // 'deploy:writable',
+    'compile:styles',
     'deploy:magento',
     'deploy:symlink',
     'deploy:unlock',
