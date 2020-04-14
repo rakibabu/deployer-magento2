@@ -40,7 +40,8 @@ set('magento_bin', 'bin/magento');
 set('themes', ['Magento/Luma' => 'en_US', 'Magento/backend' => 'en_US']);
 set('shared_files', [
     '{{magento_dir}}app/etc/env.php',
-    '{{magento_dir}}var/.maintenance.ip'
+    '{{magento_dir}}var/.maintenance.ip',
+    '{{magento_dir}}.env'
     // '{{magento_dir}}pub/robots.txt',
     // '{{magento_dir}}pub/sitemap.xml'
 ]);
