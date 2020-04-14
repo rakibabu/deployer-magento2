@@ -14,9 +14,12 @@ task('magento:compile', function () {
 desc('Deploy assets');
 task('magento:deploy:assets', function () {
     if (get('is_production')) {
-        run("cd {{release_path}}{{magento_dir}} && {{php}} {{magento_bin}} setup:static-content:deploy {{languages}} {{verbose}}");
-    } elseif (get('compile_UAT')) {
-        run("cd {{release_path}}{{magento_dir}} && {{php}} {{magento_bin}} setup:static-content:deploy {{languages}} --force {{verbose}}");
+        $themes = get('themes');
+        $UAT = get('compile_UAT') ? ' --force' : '';
+
+        foreach ($themes as $theme => $languages) {
+            run("cd {{release_path}}{{magento_dir}} && {{php}} {{magento_bin}} setup:static-content:deploy ".$languages." --theme ".$theme.$UAT." {{verbose}}");
+        }
     } else {
         write("Not running the Static Content deploy for UAT");
     }
@@ -44,11 +47,9 @@ task('magento:clean:generated', function () {
 
 desc('Set deploy mode set');
 task('magento:deploy:mode:set', function () {
-    if (get('is_production')) {
-        run("cd {{release_path}}{{magento_dir}} && {{php}} {{magento_bin}} deploy:mode:set production --skip-compilation {{verbose}}");
-    } else {
-        run("cd {{release_path}}{{magento_dir}} && {{php}} {{magento_bin}} deploy:mode:set developer {{verbose}}");
-    }
+    $mode = get('is_production') ? 'prodution' : 'developer';
+
+    run("cd {{release_path}}{{magento_dir}} && {{php}} {{magento_bin}} deploy:mode:set ".$mode." --skip-compilation {{verbose}}");
 });
 
 desc('Set right permissions to folders and files');

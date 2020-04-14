@@ -6,7 +6,17 @@ namespace Deployer;
 
 desc('Redis cache flush');
 task('redis:flush', function () {
-    run("redis-cli -n 0 flushall");
+     $socketConnect = '';
+
+    if (get('redis_sock')) {
+        $socketConnect = ' -s {{redis_server}}';
+    }
+
+    $options = get('redis_dbs');
+
+    foreach ($options as $option) {
+        run("redis-cli".$socketConnect." -n ".$option." flushdb;");
+    }
 });
 
 desc('OPCache cache flush');

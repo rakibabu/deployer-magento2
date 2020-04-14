@@ -10,7 +10,7 @@
 
 namespace Deployer;
 
-require_once 'recipe/common.php';
+require_once '../vendor/deployer/deployer/recipe/common.php';
 
 # ----- Deployment properties ---
 set('forwardAgent', true);
@@ -19,6 +19,12 @@ set('ssh_multiplexing', true);
 set('php', '/usr/local/bin/php');
 set('magerun', '/usr/local/bin/n98-magerun2');
 set('composer', '/usr/local/bin/composer');
+
+// redis
+set('redis_sock', true);
+set('redis_server', '/var/run/redis/redis.sock');
+set('redis_dbs', ['0','1']);
+
 set('keep_releases', 3);
 // set('default_timeout', 360);
 set('verbose', '--quiet'); // Use --quite or -v or -vvv
@@ -29,9 +35,9 @@ set('release_name', function () {
 # ----- Magento properties -------
 set('is_production', 0);
 set('compile_UAT', 1);
-set('languages', 'en_US');
 set('magento_dir', '/');
 set('magento_bin', 'bin/magento');
+set('themes', ['Magento/Luma' => 'en_US', 'Magento/backend' => 'en_US']);
 set('shared_files', [
     '{{magento_dir}}app/etc/env.php',
     '{{magento_dir}}var/.maintenance.ip'
@@ -50,13 +56,13 @@ set('shared_dirs', [
     '{{magento_dir}}var/backups',
     '{{magento_dir}}var/tmp',
     '{{magento_dir}}pub/sitemaps',
-    '{{magento_dir}}pub/media'
+    '{{magento_dir}}pub/robots',
 ]);
 set('writable_dirs', [
     '{{magento_dir}}var',
     '{{magento_dir}}pub/static',
     '{{magento_dir}}pub/media',
-    '{{magento_dir}}generation'
+    '{{magento_dir}}generated'
 ]);
 set('clear_paths', [
     '{{magento_dir}}pub/static/_cache',
